@@ -9,30 +9,22 @@
     messagingSenderId: "303039056438"
   };
   firebase.initializeApp(config);
-
+var database = firebase.database();
   firebase.database().ref().on("value",function(snapshot){
     console.log(snapshot.val());
   });
-  
-var database = firebase.database();
 
-// 2. Button for adding Employees
+// 2. Button for adding Trains
 $("#add-train-btn").on("click", function(event) {
   console.log("Submitted").
   event.preventDefault();
 
-  // Grabs user input
+  // Grabs user train input
   var trainName = $("#train-name-input").val().trim();
   var trainDestination = $("#role-input").val().trim();
   var trainFreq = moment($("#start-input").val().trim(), "HH:mm").format("X");
   var trainArrival = $("#rate-input").val().trim();
   var minuteAway = $("#minutes-input").val().trim();
-
-  if (trainName.length > 1) {
-    console.log("Write");
-  } else {
-    console.log("none");
-  }
 
   // Creates local "temporary" object for holding employee data
   var newTrain = {
@@ -43,7 +35,7 @@ $("#add-train-btn").on("click", function(event) {
     "minutes": minutesAway
   };
 
-  // Uploads employee data to the database
+  // Uploads train data to the firebase database
   database.ref("https://timesheetexample-e5220.firebaseio.com/").push(newTrain);
 
   // Logs everything to console
